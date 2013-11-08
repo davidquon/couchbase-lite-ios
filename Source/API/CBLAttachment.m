@@ -12,6 +12,7 @@
 #import "CBLDatabase+Attachments.h"
 #import "CBL_BlobStore.h"
 #import "CBLInternal.h"
+#import "CollectionUtils.h"
 
 
 @implementation CBLAttachment
