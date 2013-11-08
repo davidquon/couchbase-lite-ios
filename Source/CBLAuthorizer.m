@@ -17,6 +17,8 @@
 #import "CBLMisc.h"
 #import "CBLBase64.h"
 #import "MYURLUtils.h"
+#import "CollectionUtils.h"
+#import "Test.h"
 
 
 @implementation CBLBasicAuthorizer
