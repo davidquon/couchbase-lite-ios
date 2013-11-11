@@ -10,6 +10,8 @@
 #import "CBLDatabase+Insertion.h"
 #import "CBL_Revision.h"
 #import "CBL_DatabaseChange.h"
+#import "CollectionUtils.h"
+#import "Logging.h"
 
 
 NSString* const kCBLDocumentChangeNotification = @"CBLDocumentChange";
@@ -55,7 +57,7 @@ NSString* const kCBLDocumentChangeNotification = @"CBLDocumentChange";
 
 
 - (NSString*) description {
-    return $sprintf(@"%@[%@]", [self class], self.abbreviatedID);
+    return (NSString*) $sprintf(@"%@[%@]", [self class], self.abbreviatedID);
 }
 
 

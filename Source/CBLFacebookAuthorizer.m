@@ -8,6 +8,7 @@
 
 #import "CBLFacebookAuthorizer.h"
 #import "MYURLUtils.h"
+#import "Test.h"
 
 
 #define kLoginParamAccessToken @"access_token"
