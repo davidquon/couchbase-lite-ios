@@ -20,6 +20,7 @@
 
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
+#import "CollectionUtils.h"
 
 
 #define kActiveReplicatorCleanupDelay 10.0
@@ -107,9 +108,9 @@
 - (BOOL) findMissingRevisions: (CBL_RevisionList*)revs {
     if (revs.count == 0)
         return YES;
-    NSString* sql = $sprintf(@"SELECT docid, revid FROM revs, docs "
-                              "WHERE revid in (%@) AND docid IN (%@) "
-                              "AND revs.doc_id == docs.doc_id",
+    NSString* sql = (NSString*) $sprintf(@"SELECT docid, revid FROM revs, docs "
+                                          "WHERE revid in (%@) AND docid IN (%@) "
+                                          "AND revs.doc_id == docs.doc_id",
                              [CBLDatabase joinQuotedStrings: revs.allRevIDs],
                              [CBLDatabase joinQuotedStrings: revs.allDocIDs]);
     _fmdb.shouldCacheStatements = NO;

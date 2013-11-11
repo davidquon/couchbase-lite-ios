@@ -20,6 +20,8 @@
 #import "CBLManager+Internal.h"
 #import "CBLMisc.h"
 #import "MYBlockUtils.h"
+#import "CollectionUtils.h"
+#import "Logging.h"
 
 #if TARGET_OS_IPHONE
 #import <UIKit/UIApplication.h>
@@ -223,7 +225,7 @@ static id<CBLFilterCompiler> sFilterCompiler;
 }
 
 - (void) setMaxRevTreeDepth: (NSUInteger)maxRevs {
-    [self setInfo: $sprintf(@"%lu", (unsigned long)maxRevs) forKey: @"max_revs"];
+    [self setInfo: (NSString*) $sprintf(@"%lu", (unsigned long)maxRevs) forKey: @"max_revs"];
     // This property is looked up by pruneRevsToMaxDepth:
 }
 
@@ -406,7 +408,7 @@ static NSString* makeLocalDocID(NSString* docID) {
 
 
 - (NSArray*) allReplications {
-    NSMutableArray* result = $marray();
+    NSMutableArray* result = (NSMutableArray*) $marray();
     for (CBLReplication* repl in _manager.allReplications) {
         if (repl.localDatabase == self)
             [result addObject: repl];
