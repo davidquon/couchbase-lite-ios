@@ -15,6 +15,7 @@
 
 #import "CBLCanonicalJSON.h"
 #import <math.h>
+#import "Test.h"
 
 
 @interface CBLCanonicalJSON ()

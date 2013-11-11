@@ -21,6 +21,10 @@
 #import "CBLMisc.h"
 #import "CBLStatus.h"
 #import "CBLJSONReader.h"
+#import "CBLJSON.h"
+#import "Logging.h"
+#import "CollectionUtils.h"
+#import "Test.h"
 
 
 #define kDefaultHeartbeat (5 * 60.0)
@@ -285,7 +289,7 @@ typedef void (^CBLChangeMatcherClient)(id sequence, NSString* docID, NSArray* re
     self = [super init];
     if (self) {
         _client = client;
-        _revs = $marray();
+        _revs = (NSMutableArray*) $marray();
         CBLRevInfoMatcher* m = [[CBLRevInfoMatcher alloc] initWithArray: _revs];
         _revsMatcher = [[CBLTemplateMatcher alloc] initWithTemplate: @[m]];
     }
@@ -328,7 +332,7 @@ TestCase(CBLChangeMatcher) {
     {\"seq\":1,\"id\":\"1\",\"changes\":[{\"rev\":\"2-751ac4eebdc2a3a4044723eaeb0fc6bd\"}],\"deleted\":true},\
     {\"seq\":2,\"id\":\"10\",\"changes\":[{\"rev\":\"2-566bffd5785eb2d7a79be8080b1dbabb\"}],\"deleted\":true},\
     {\"seq\":3,\"id\":\"100\",\"changes\":[{\"rev\":\"2-ec2e4d1833099b8a131388b628fbefbf\"}],\"deleted\":true}]}";
-    NSMutableArray* docIDs = $marray();
+    NSMutableArray* docIDs = (NSMutableArray*) $marray();
     CBLJSONMatcher* root = [CBLChangeMatcher changesFeedMatcherWithClient:
         ^(id sequence, NSString *docID, NSArray *revs, bool deleted) {
             [docIDs addObject: docID];

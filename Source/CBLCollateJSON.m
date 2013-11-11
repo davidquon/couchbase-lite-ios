@@ -16,6 +16,8 @@
 //  http://wiki.apache.org/couchdb/View_collation#Collation_Specification
 
 #import "CBLCollateJSON.h"
+#import "Logging.h"
+#import "Test.h"
 
 
 #if 0 // Set to 1 for code-coverage testing

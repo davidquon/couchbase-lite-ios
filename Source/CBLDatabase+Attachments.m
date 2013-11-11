@@ -39,6 +39,8 @@
 #import "FMDatabaseAdditions.h"
 #import "FMResultSet.h"
 #import "GTMNSData+zlib.h"
+#import "Logging.h"
+#import "Test.h"
 
 
 // Length that constitutes a 'big' attachment

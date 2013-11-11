@@ -14,6 +14,8 @@
 #import "CBLDatabase+Internal.h"
 #import "CBLMisc.h"
 #import "CBLJSON.h"
+#import "Logging.h"
+#import "Test.h"
 
 #import "CollectionUtils.h"
 
