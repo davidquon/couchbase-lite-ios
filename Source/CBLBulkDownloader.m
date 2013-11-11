@@ -13,6 +13,7 @@
 #import "CBL_Revision.h"
 #import "CBLDatabase+Internal.h"
 #import "CBLMisc.h"
+#import "CBLJSON.h"
 
 #import "CollectionUtils.h"
 
