@@ -31,6 +31,9 @@
 #import "FMDatabaseAdditions.h"
 #import "MYBlockUtils.h"
 #import "ExceptionUtils.h"
+#import "Test.h"
+#import "Logging.h"
+#import "CollectionUtils.h"
 
 
 NSString* const CBL_DatabaseChangesNotification = @"CBL_DatabaseChanges";
@@ -145,7 +148,7 @@ NSString* const CBL_DatabaseWillBeDeletedNotification = @"CBL_DatabaseWillBeDele
 }
 
 - (NSString*) description {
-    return $sprintf(@"%@[<%p>%@]", [self class], self, self.name);
+    return (NSString*) $sprintf(@"%@[<%p>%@]", [self class], self, self.name);
 }
 
 - (BOOL) exists {
@@ -319,9 +322,9 @@ NSString* const CBL_DatabaseWillBeDeletedNotification = @"CBL_DatabaseWillBeDele
     
     if (dbVersion < 4) {
         // Version 4: added 'info' table
-        NSString* sql = $sprintf(@"CREATE TABLE info ( \
-                                     key TEXT PRIMARY KEY, \
-                                     value TEXT); \
+        NSString* sql = (NSString*) $sprintf(@"CREATE TABLE info ( \
+                                                 key TEXT PRIMARY KEY, \
+                                                 value TEXT); \
                                    INSERT INTO INFO (key, value) VALUES ('privateUUID', '%@');\
                                    INSERT INTO INFO (key, value) VALUES ('publicUUID',  '%@');\
                                    PRAGMA user_version = 4",
@@ -518,7 +521,7 @@ NSString* const CBL_DatabaseWillBeDeletedNotification = @"CBL_DatabaseWillBeDele
 
 
 - (BOOL) beginTransaction {
-    if (![_fmdb executeUpdate: $sprintf(@"SAVEPOINT tdb%d", _transactionLevel + 1)]) {
+    if (![_fmdb executeUpdate: (NSString*) $sprintf(@"SAVEPOINT tdb%d", _transactionLevel + 1)]) {
         Warn(@"Failed to create savepoint transaction!");
         return NO;
     }
@@ -534,13 +537,13 @@ NSString* const CBL_DatabaseWillBeDeletedNotification = @"CBL_DatabaseWillBeDele
         LogTo(CBLDatabase, @"Commit transaction (level %d)", _transactionLevel);
     } else {
         LogTo(CBLDatabase, @"CANCEL transaction (level %d)", _transactionLevel);
-        if (![_fmdb executeUpdate: $sprintf(@"ROLLBACK TO tdb%d", _transactionLevel)]) {
+        if (![_fmdb executeUpdate: (NSString*) $sprintf(@"ROLLBACK TO tdb%d", _transactionLevel)]) {
             Warn(@"Failed to rollback transaction!");
             ok = NO;
         }
         [_changesToNotify removeAllObjects];
     }
-    if (![_fmdb executeUpdate: $sprintf(@"RELEASE tdb%d", _transactionLevel)]) {
+    if (![_fmdb executeUpdate: (NSString*) $sprintf(@"RELEASE tdb%d", _transactionLevel)]) {
         Warn(@"Failed to release transaction!");
         ok = NO;
     }
@@ -639,7 +642,7 @@ NSString* const CBL_DatabaseWillBeDeletedNotification = @"CBL_DatabaseWillBeDele
     if (senderDB != self && [senderDB.path isEqualToString: _path]) {
         // Careful: I am being called on senderDB's thread, not my own!
         if ([[n name] isEqualToString: CBL_DatabaseChangesNotification]) {
-            NSMutableArray* echoedChanges = $marray();
+            NSMutableArray* echoedChanges = (NSMutableArray *) $marray();
             for (CBL_DatabaseChange* change in (n.userInfo)[@"changes"]) {
                 if (!change.echoed)
                     [echoedChanges addObject: change.copy]; // copied change is marked as echoed

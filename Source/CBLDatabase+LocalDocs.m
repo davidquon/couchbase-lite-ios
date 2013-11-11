@@ -19,6 +19,8 @@
 #import "CBLInternal.h"
 
 #import "FMDatabase.h"
+#import "CollectionUtils.h"
+#import "CBLJSON.h"
 
 
 @implementation CBLDatabase (LocalDocs)
@@ -36,7 +38,7 @@
         NSData* json = [r dataNoCopyForColumnIndex: 1];
         NSMutableDictionary* properties;
         if (json.length==0 || (json.length==2 && memcmp(json.bytes, "{}", 2)==0))
-            properties = $mdict();      // workaround for issue #44
+            properties = (NSMutableDictionary*) $mdict();      // workaround for issue #44
         else {
             properties = [CBLJSON JSONObjectWithData: json
                                             options:CBLJSONReadingMutableContainers
@@ -73,7 +75,7 @@
                 *outStatus = kCBLStatusBadID;
                 return nil;
             }
-            newRevID = $sprintf(@"%d-local", ++generation);
+            newRevID = (NSString*) $sprintf(@"%d-local", ++generation);
             if (![_fmdb executeUpdate: @"UPDATE localdocs SET revid=?, json=? "
                                         "WHERE docid=? AND revid=?", 
                                        newRevID, json, docID, prevRevID]) {
